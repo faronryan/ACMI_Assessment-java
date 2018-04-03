@@ -4,7 +4,15 @@
  * and open the template in the editor.
  */
 package acmicodechallenge.java;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.lang.Exception;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 
 /**
  *
@@ -52,5 +60,34 @@ public class CodeChallenge {
 	}
 
 	throw new OutofBoundsError("INVALID Netmask!");
+    }
+    
+    List<String> find_mac_address(File file, String filename, List<String> results){
+        try {
+            FileReader fr = new FileReader(file);
+            BufferedReader br = new BufferedReader(fr);
+            String regex =  "[\\s]+[a-f0-9_]{2}:[a-f0-9_]{2}:[a-f0-9_]{2}:"+
+                              "[a-f0-9_]{2}:[a-f0-9_]{2}:[a-f0-9_]{2}[\\s]+";
+            final int flags = Pattern.CASE_INSENSITIVE;
+            Pattern p = Pattern.compile(regex, flags);
+            
+            String line;
+            results = new ArrayList();
+            int i = 0;
+            while((line = br.readLine()) != null){
+                Matcher m = p.matcher(line);
+                while (m.find()) { 
+                    String output = "File: "+filename+" line["+i+"] "+ 
+                                    " mac_address="+m.group(0);
+                    results.add(output);
+                }
+                i++;
+            }
+        }catch(Exception e){
+            System.out.println(e.getMessage());
+            return null;
+        }
+        
+        return results;
     }
 }

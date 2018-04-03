@@ -5,6 +5,8 @@
  */
 package acmicodechallenge.java;
 
+import java.io.File;
+import java.util.List;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -67,6 +69,25 @@ public class CodeChallengeTest {
         }catch(OutofBoundsError e){
             assertEquals(expResult, true);
         }        
+    }
+
+    /**
+     * Test of find_mac_address method, of class CodeChallenge.
+     */
+    @Test
+    public void testFind_mac_address() { 
+        System.out.println("find_mac_address");
+        File folder = new File("C:\\projects\\ACMICodeChallenge-java\\test\\acmicodechallenge\\java\\inputs");
+        File[] list = folder.listFiles();
+        CodeChallenge instance = new CodeChallenge();        
+        int [] expected_size = {7}; // one file was checked
+        for(int i = 0; i < list.length; i++){
+            
+            List<String> results = null;
+            if(list[i].isFile())
+                results = instance.find_mac_address(list[i], list[i].getName(), results);  
+            assertEquals(expected_size[i], results.size());
+        }
     }
     
 }
