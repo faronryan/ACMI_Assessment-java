@@ -15,6 +15,7 @@ public class ACMICodeChallengeJava {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
+        CodeChallenge cc = new CodeChallenge();
+        System.out.println(cc.netmask_to_bits("255.255.251.0"));
     }
 }
