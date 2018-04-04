@@ -7,14 +7,15 @@ package acmicodechallenge.java;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.junit.After;
 import org.junit.AfterClass;
+import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.junit.Assert.*;
 
 /**
  *
@@ -98,7 +99,7 @@ public class CodeChallengeTest {
     @Test
     public void testExplodereport() {
         System.out.println("explodereport");
-        List<String> rawinput = new ArrayList<String>();
+        List<String> rawinput = new ArrayList<>();
         rawinput.add("app1|server1|uptime|5"); 
         rawinput.add("app1|server1|loadavg|0.01 0.02 0.03");
         rawinput.add("app1|server1|conn1|state|up");
@@ -108,9 +109,38 @@ public class CodeChallengeTest {
         rawinput.add("app1|running|true");
         
         CodeChallenge instance = new CodeChallenge();
-        Map<String, Object> expResult = null;
         Map<String, Object> result = instance.explodereport(rawinput);
-        assertEquals(expResult, result);
+        
+        Map<String, Object> conn1 = new HashMap<>();
+        conn1.put("state","up");
+        Map<String, Object> server1 = new HashMap<>();
+        server1.put("conn1",conn1);
+        server1.put("loadavg","0.01 0.02 0.03");
+        server1.put("uptime","5");
+        
+        Map<String, Object> conn2 = new HashMap<>();
+        conn2.put("state","down");
+        Map<String, Object> server2 = new HashMap<>();
+        server2.put("conn1",conn2);
+        server2.put("loadavg","0.11 0.22 0.33");
+        server2.put("uptime","10");
+        
+        Map<String, Object> app1 = new HashMap<>();
+        app1.put("server1",server1);
+        app1.put("server2",server2); 
+        app1.put("running", "true");        
+        /*{"app1": {"running": "true", 
+            "server1": {"uptime": "5", 
+                        "loadavg": "0.01 0.02 0.03", 
+                        "conn1": {"state": "up"}}, 
+            "server2": {"uptime": "10", 
+                        "loadavg": "0.11 0.22 0.33", 
+                        "conn1": {"state": "down"}}}};*/
+ 
+        Map<String, Object> expected = new HashMap<>();
+        expected.put("app1", app1);        
+        
+        assertEquals(expected, result);
     }
 
     /**

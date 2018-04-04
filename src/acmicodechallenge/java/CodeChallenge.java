@@ -95,7 +95,7 @@ public class CodeChallenge {
     }
      
     Map<String,Object> explodereport(List<String> rawinput){
-        Map<String,Object> dumper = new HashMap<String,Object>();
+        Map<String,Object> dumper = new HashMap<>();
           
         for(String line: rawinput){ 
             String[] keys = line.replace('|', ',').split(",");
@@ -117,8 +117,8 @@ public class CodeChallenge {
                 return hsh;
             }
             else{
-                hsh.put(lst.get(index),(HashMap)exploder_helper(lst, index+1,
-                        new HashMap<String,Object>()));
+                hsh.put(lst.get(index),exploder_helper(lst, index+1,
+                        new HashMap<>()));
                 return hsh; 
             }
         }
