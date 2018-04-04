@@ -9,7 +9,10 @@ import java.io.File;
 import java.io.FileReader;
 import java.lang.Exception;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -89,5 +92,38 @@ public class CodeChallenge {
         }
         
         return results;
+    }
+     
+    Map<String,Object> explodereport(List<String> rawinput){
+        Map<String,Object> dumper = new HashMap<String,Object>();
+          
+        for(String line: rawinput){ 
+            String[] keys = line.replace('|', ',').split(",");
+            exploder_helper(Arrays.asList(keys), 0, dumper);
+        }
+         
+        return dumper;
+    }
+    
+    Object exploder_helper(List<String> lst, int index, 
+                                           Object new_hash){
+    
+        if( index < lst.size() -1)
+        { 
+            Map hsh = (HashMap)new_hash;
+            if(hsh.containsKey(lst.get(index))){ 
+                hsh.put(lst.get(index),(HashMap)exploder_helper(lst, index+1,
+                        hsh.get(lst.get(index))));
+                return hsh;
+            }
+            else{
+                hsh.put(lst.get(index),(HashMap)exploder_helper(lst, index+1,
+                        new HashMap<String,Object>()));
+                return hsh; 
+            }
+        }
+        else{ 
+            return lst.get(index);
+        }
     }
 }
