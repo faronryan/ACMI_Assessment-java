@@ -4,7 +4,7 @@
     <groupId>acmicodechallenge.java</groupId>
     <artifactId>java-maven</artifactId>
     <packaging>jar</packaging>
-    <version>3.1</version>
+    <version>3.5.3</version>
     <name>java-maven</name>
     <url>http://maven.apache.org</url>
 	
