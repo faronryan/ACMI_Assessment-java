@@ -4,7 +4,7 @@
     <groupId>acmicodechallenge.java</groupId>
     <artifactId>java-maven</artifactId>
     <packaging>jar</packaging>
-    <version>3.5.3</version>
+    <version>1.0.1</version>
     <name>java-maven</name>
     <url>http://maven.apache.org</url>
 	
@@ -53,7 +53,7 @@
             <url>http://nexus:8081/repository/maven-releases/</url>
         </repository>
         <snapshotRepository>
-            <id>deployment-tags</id>
+            <id>deployment</id>
             <name>maven-snapshots</name>
             <url>http://nexus:8081/repository/maven-snapshots/</url>
         </snapshotRepository>
