@@ -1,0 +1,62 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>acmicodechallenge.java</groupId>
+    <artifactId>java-maven</artifactId>
+    <packaging>jar</packaging>
+    <version>3.5.3</version>
+    <name>java-maven</name>
+    <url>http://maven.apache.org</url>
+	
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+    </properties>
+
+    <dependencies> 
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.12</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+  
+    <build>
+        <sourceDirectory>${project.basedir}/src/acmicodechallenge/java</sourceDirectory> 
+        <testSourceDirectory>${project.basedir}/test/acmicodechallenge/java</testSourceDirectory> 
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId> 
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                 </configuration>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id> 
+                        <goals>
+                            <goal>jar</goal>                            
+                        </goals>                     
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>        
+    </build>
+  
+    <distributionManagement>
+        <repository>
+            <id>deployment</id>
+            <name>maven-releases</name>
+            <url>http://nexus:8081/repository/maven-releases/</url>
+        </repository>
+        <snapshotRepository>
+            <id>deployment-tags</id>
+            <name>maven-snapshots</name>
+            <url>http://nexus:8081/repository/maven-snapshots/</url>
+        </snapshotRepository>
+    </distributionManagement>
+
+</project>

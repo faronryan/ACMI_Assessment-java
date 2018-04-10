@@ -80,8 +80,9 @@ public class CodeChallengeTest {
     @Test
     public void testFind_mac_address() { 
         System.out.println("find_mac_address");
-        File folder = new File("C:\\projects\\ACMICodeChallenge-java\\test\\acmicodechallenge\\java\\inputs");
+        File folder = new File("test/acmicodechallenge/java/inputs");
         File[] list = folder.listFiles();
+        //System.out.println(new File("").getAbsolutePath());
         CodeChallenge instance = new CodeChallenge();        
         int [] expected_size = {7}; // one file was checked
         for(int i = 0; i < list.length; i++){
