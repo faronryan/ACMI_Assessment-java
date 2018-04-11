@@ -4,7 +4,7 @@
     <groupId>acmicodechallenge.java</groupId>
     <artifactId>java-maven</artifactId>
     <packaging>jar</packaging>
-    <version>0.8.2-SNAPSHOT</version>
+    <version>1.0.1</version>
     <name>java-maven</name>
     <url>http://maven.apache.org</url>
 	
@@ -46,7 +46,7 @@
             <plugin>
             <groupId>org.jacoco</groupId>
             <artifactId>jacoco-maven-plugin</artifactId>
-            <version>1.0.1</version>
+            <version>0.8.2-SNAPSHOT</version>
             <executions>
                 <!--
                     Prepares the property pointing to the JaCoCo runtime agent which
