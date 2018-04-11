@@ -69,8 +69,8 @@ public class CodeChallenge {
         try {
             FileReader fr = new FileReader(file);
             BufferedReader br = new BufferedReader(fr);
-            String regex =  "[\\s]+[a-f0-9_]{2}:[a-f0-9_]{2}:[a-f0-9_]{2}:"+
-                              "[a-f0-9_]{2}:[a-f0-9_]{2}:[a-f0-9_]{2}[\\s]+";
+            String regex =  "[\\s]+[a-f0-9]{2}:[a-f0-9]{2}:[a-f0-9]{2}:"+
+                              "[a-f0-9]{2}:[a-f0-9]{2}:[a-f0-9]{2}[\\s]+";
             final int flags = Pattern.CASE_INSENSITIVE;
             Pattern p = Pattern.compile(regex, flags);
             
