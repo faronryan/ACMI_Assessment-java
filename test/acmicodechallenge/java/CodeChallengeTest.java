@@ -65,15 +65,16 @@ public class CodeChallengeTest {
         System.out.println("check_bounds");
         String netmask = "255.255.253.0";
         CodeChallenge instance = new CodeChallenge();
-        boolean expResult = true;
+        instance.load_cidr_properites();
+        int expResult = -1;
         try {
             int result = instance.check_bounds(netmask);
-            assertEquals(expResult, false);
+            assertEquals(expResult, result);
         }catch(OutofBoundsError e){
-            assertEquals(expResult, true);
+            assertEquals(true, true); 
         }        
     }
-
+    
     /**
      * Test of find_mac_address method, of class CodeChallenge.
      */
@@ -158,5 +159,15 @@ public class CodeChallengeTest {
         //Object result = instance.exploder_helper(lst, index, new_hash);
         //assertEquals(expResult, result);
     }
-    
+
+    /**
+     * Test of load_cidr_properites method, of class CodeChallenge.
+     */
+    @Test
+    public void testLoad_cidr_properites() throws Exception {
+        CodeChallenge instance = new CodeChallenge();
+        boolean expResult = true;
+        boolean result = instance.load_cidr_properites();
+        assertEquals(expResult, result);
+    }    
 }

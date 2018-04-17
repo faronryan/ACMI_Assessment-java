@@ -6,8 +6,11 @@
 package acmicodechallenge.java;
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileReader;
-import java.lang.Exception;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -15,6 +18,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.Properties;
+import java.util.logging.FileHandler;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 /**
@@ -29,39 +36,66 @@ class OutofBoundsError extends Exception{
 }
  
 public class CodeChallenge {
-    private final String [] NETMASK_LOOKUP_TABLE =
-        {"128.0.0.0","192.0.0.0","224.0.0.0","240.0.0.0",
-	"248.0.0.0","252.0.0.0","254.0.0.0","255.0.0.0",
-	"255.128.0.0","255.192.0.0","255.224.0.0",
-	"255.240.0.0","255.248.0.0","255.252.0.0","255.254.0.0",
-	"255.255.0.0","255.255.128.0","255.255.192.0",
-	"255.255.224.0","255.255.240.0","255.255.248.0",
-	"255.255.252.0","255.255.254.0","255.255.255.0",
-	"255.255.255.128","255.255.255.192","255.255.255.224",
-	"255.255.255.240","255.255.255.248","255.255.255.252",
-	"255.255.255.254","255.255.255.255"};
-
+    final static Logger logger_ = 
+            Logger.getLogger(CodeChallenge.class.getName());
+    private Properties prop_;
+    
     public CodeChallenge()
-    {}
+    {
+        prop_ = new Properties();
+        try{
+            logger_.addHandler(new FileHandler("resources/error.logs"));
+        }catch(IOException ex){
+            logger_.log(Level.WARNING, ex.getMessage());
+        }   
+    }
     
     int netmask_to_bits(String netmask){
+        
         try{
-            int result = check_bounds(netmask);
-            return result;
+            if(load_cidr_properites()){
+                int result = check_bounds(netmask);
+                return result;
+            }
         }catch(OutofBoundsError e){
-            System.out.println(e.getMessage());
+            logger_.log(Level.WARNING, e.getMessage());
+        } catch(IOException ex){
+            logger_.log(Level.WARNING, ex.getMessage());
         }
+        
         return -1;
     }
     
+    boolean load_cidr_properites() throws IOException {
+        InputStream input = null;
+        
+        try{
+            input = new FileInputStream("resources/netmask.properties");            
+            prop_.load(input);
+            if(!prop_.isEmpty())
+                return true;
+        }catch(IOException ex){
+            logger_.log(Level.WARNING, ex.getMessage());
+            throw ex;
+        }
+        finally{
+            if(input != null)
+                input.close();
+        }
+        
+        return false;
+    }
+    
     int check_bounds(String netmask) throws OutofBoundsError {
-        int i=0;
-        for(String s: NETMASK_LOOKUP_TABLE){
-            if(s.equals(netmask))
-                return i+1; // base-1 index
+        int i = 1;
+        while(i < 33){
+            String key = "cidr"+i;
+            if(netmask.equals(prop_.getProperty(key))){
+                return i;
+            }
             i++;
-	}
-
+        }
+      
 	throw new OutofBoundsError("INVALID Netmask!");
     }
     
@@ -87,13 +121,13 @@ public class CodeChallenge {
                 i++;
             }
         }catch(Exception e){
-            System.out.println(e.getMessage());
+            logger_.log(Level.WARNING, e.getMessage());
             return null;
         }
         
         return results;
     }
-     
+      
     Map<String,Object> explodereport(List<String> rawinput){
         Map<String,Object> dumper = new HashMap<>();
           
