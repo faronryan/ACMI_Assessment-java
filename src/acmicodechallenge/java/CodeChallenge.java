@@ -52,10 +52,8 @@ public class CodeChallenge {
     int netmaskToBits(String netmask){
         
         try{
-            if(loadCIDRProperites()){
-                int result = checkBounds(netmask);
-                return result;
-            }
+            if(loadCIDRProperites())
+                return checkBounds(netmask);
         }catch(OutofBoundsError e){
             LOGGER.log(Level.WARNING, e.getMessage());
         } catch(IOException ex){
@@ -79,7 +77,13 @@ public class CodeChallenge {
         }
         finally{
             if(input != null)
-                input.close();
+                try {
+                    input.close();
+            } catch(IOException ex)
+            {
+                LOGGER.log(Level.WARNING, ex.getMessage());
+                throw ex;
+            }
         }
         
         return false;
@@ -99,8 +103,9 @@ public class CodeChallenge {
     }
     
     List<String> findMACAddress(File file, String filename, List<String> results){
+        FileReader fr = null;
         try {
-            FileReader fr = new FileReader(file);
+            fr = new FileReader(file);
             BufferedReader br = new BufferedReader(fr);
             String regex =  "[\\s]+[a-f0-9]{2}:[a-f0-9]{2}:[a-f0-9]{2}:"+
                               "[a-f0-9]{2}:[a-f0-9]{2}:[a-f0-9]{2}[\\s]+";
@@ -122,6 +127,15 @@ public class CodeChallenge {
         }catch(Exception e){
             LOGGER.log(Level.WARNING, e.getMessage());
         }
+        finally{
+            if(fr != null)
+                try {
+                    fr.close();
+            } catch(IOException ex)
+            {
+                LOGGER.log(Level.WARNING, ex.getMessage());
+            }
+        }
         
         return results;
     }
@@ -138,11 +152,11 @@ public class CodeChallenge {
     }
     
     Object exploderHelper(List<String> lst, int index, 
-                                           Object new_hash){
+                                           Object newHash){
     
         if( index < lst.size() -1)
         { 
-            Map hsh = (HashMap)new_hash;
+            Map hsh = (HashMap)newHash;
             if(hsh.containsKey(lst.get(index))){ 
                 hsh.put(lst.get(index),(HashMap)exploderHelper(lst, index+1,
                         hsh.get(lst.get(index))));
