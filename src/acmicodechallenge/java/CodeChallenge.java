@@ -35,9 +35,9 @@ class OutofBoundsError extends Exception{
 }
  
 public class CodeChallenge {
+    private Properties prop_;
     final static Logger LOGGER = 
             Logger.getLogger(CodeChallenge.class.getName());
-    private Properties prop_;
     
     public CodeChallenge()
     {
@@ -49,11 +49,11 @@ public class CodeChallenge {
         }   
     }
     
-    int netmask_to_bits(String netmask){
+    int netmaskToBits(String netmask){
         
         try{
-            if(load_cidr_properites()){
-                int result = check_bounds(netmask);
+            if(loadCIDRProperites()){
+                int result = checkBounds(netmask);
                 return result;
             }
         }catch(OutofBoundsError e){
@@ -65,7 +65,7 @@ public class CodeChallenge {
         return -1;
     }
     
-    boolean load_cidr_properites() throws IOException {
+    boolean loadCIDRProperites() throws IOException {
         InputStream input = null;
         
         try{
@@ -84,8 +84,8 @@ public class CodeChallenge {
         
         return false;
     }
-    
-    int check_bounds(String netmask) throws OutofBoundsError {
+     
+    int checkBounds(String netmask) throws OutofBoundsError {
         int i = 1;
         while(i < 33){
             String key = "cidr"+i;
@@ -98,7 +98,7 @@ public class CodeChallenge {
 	throw new OutofBoundsError("INVALID Netmask!");
     }
     
-    List<String> find_mac_address(File file, String filename, List<String> results){
+    List<String> findMACAddress(File file, String filename, List<String> results){
         try {
             FileReader fr = new FileReader(file);
             BufferedReader br = new BufferedReader(fr);
@@ -126,30 +126,30 @@ public class CodeChallenge {
         return results;
     }
       
-    Map<String,Object> explodereport(List<String> rawinput){
+    Map<String,Object> explodeReport(List<String> rawinput){
         Map<String,Object> dumper = new HashMap<>();
           
         for(String line: rawinput){ 
             String[] keys = line.replace('|', ',').split(",");
-            exploder_helper(Arrays.asList(keys), 0, dumper);
+            exploderHelper(Arrays.asList(keys), 0, dumper);
         }
          
         return dumper;
     }
     
-    Object exploder_helper(List<String> lst, int index, 
+    Object exploderHelper(List<String> lst, int index, 
                                            Object new_hash){
     
         if( index < lst.size() -1)
         { 
             Map hsh = (HashMap)new_hash;
             if(hsh.containsKey(lst.get(index))){ 
-                hsh.put(lst.get(index),(HashMap)exploder_helper(lst, index+1,
+                hsh.put(lst.get(index),(HashMap)exploderHelper(lst, index+1,
                         hsh.get(lst.get(index))));
                 return hsh;
             }
             else{
-                hsh.put(lst.get(index),exploder_helper(lst, index+1,
+                hsh.put(lst.get(index),exploderHelper(lst, index+1,
                         new HashMap<>()));
                 return hsh; 
             }
