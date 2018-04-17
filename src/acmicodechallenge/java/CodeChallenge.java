@@ -64,10 +64,8 @@ public class CodeChallenge {
     }
     
     boolean loadCIDRProperites() throws IOException {
-        InputStream input = null;
-        
-        try{
-            input = new FileInputStream("resources/netmask.properties");            
+        try (InputStream input = 
+                new FileInputStream("resources/netmask.properties")){
             prop.load(input);
             if(!prop.isEmpty())
                 return true;
@@ -75,17 +73,7 @@ public class CodeChallenge {
             LOGGER.log(Level.WARNING, ex.getMessage());
             throw ex;
         }
-        finally{
-            if(input != null)
-                try {
-                    input.close();
-            } catch(IOException ex)
-            {
-                LOGGER.log(Level.WARNING, ex.getMessage());
-                throw ex;
-            }
-        }
-        
+         
         return false;
     }
      
@@ -103,12 +91,10 @@ public class CodeChallenge {
     }
     
     List<String> findMACAddress(File file, String filename, List<String> results){
-        FileReader fr = null;
-        try {
-            fr = new FileReader(file);
-            BufferedReader br = new BufferedReader(fr);
-            String regex =  "[\\s]+[a-f0-9]{2}:[a-f0-9]{2}:[a-f0-9]{2}:"+
-                              "[a-f0-9]{2}:[a-f0-9]{2}:[a-f0-9]{2}[\\s]+";
+        try (FileReader fr = new FileReader(file); 
+                BufferedReader br = new BufferedReader(fr))
+        {
+            String regex =  prop.getProperty("mac_regex");
             final int flags = Pattern.CASE_INSENSITIVE;
             Pattern p = Pattern.compile(regex, flags);
             
@@ -126,15 +112,6 @@ public class CodeChallenge {
             }
         }catch(Exception e){
             LOGGER.log(Level.WARNING, e.getMessage());
-        }
-        finally{
-            if(fr != null)
-                try {
-                    fr.close();
-            } catch(IOException ex)
-            {
-                LOGGER.log(Level.WARNING, ex.getMessage());
-            }
         }
         
         return results;
@@ -169,7 +146,7 @@ public class CodeChallenge {
             }
         }
         else{ 
-            return lst.get(index);
+            return lst.get(index); 
         }
     }
 }
