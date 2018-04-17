@@ -6,6 +6,7 @@
 package acmicodechallenge.java;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -81,17 +82,22 @@ public class CodeChallengeTest {
     @Test
     public void testFind_mac_address() { 
         System.out.println("find_mac_address");
-        File folder = new File("test/acmicodechallenge/java/inputs");
-        File[] list = folder.listFiles();
-        //System.out.println(new File("").getAbsolutePath());
-        CodeChallenge instance = new CodeChallenge();        
-        int [] expected_size = {7}; // one file was checked
-        for(int i = 0; i < list.length; i++){
-            
-            List<String> results = null;
-            if(list[i].isFile())
-                results = instance.findMACAddress(list[i], list[i].getName(), results);  
-            assertEquals(expected_size[i], results.size());
+        try{
+            File folder = new File("test/acmicodechallenge/java/inputs");                
+            File[] list = folder.listFiles();
+            //System.out.println(new File("").getAbsolutePath());
+            CodeChallenge instance = new CodeChallenge(); 
+            instance.loadCIDRProperites();
+            int [] expected_size = {7}; // one file was checked
+            for(int i = 0; i < list.length; i++){
+
+                List<String> results = null;
+                if(list[i].isFile())
+                    results = instance.findMACAddress(list[i], list[i].getName(), results);  
+                assertEquals(expected_size[i], results.size());
+            }
+        }catch(IOException ex){
+            assertEquals("", ex.getMessage());
         }
     }
 
