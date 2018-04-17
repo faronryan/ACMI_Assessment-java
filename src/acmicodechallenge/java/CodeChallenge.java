@@ -35,13 +35,13 @@ class OutofBoundsError extends Exception{
 }
  
 public class CodeChallenge {
-    private Properties prop_;
-    final static Logger LOGGER = 
+    private Properties prop;
+    private final static Logger LOGGER = 
             Logger.getLogger(CodeChallenge.class.getName());
     
     public CodeChallenge()
     {
-        prop_ = new Properties();
+        prop = new Properties();
         try{
             LOGGER.addHandler(new FileHandler("resources/error.logs"));
         }catch(IOException ex){
@@ -70,8 +70,8 @@ public class CodeChallenge {
         
         try{
             input = new FileInputStream("resources/netmask.properties");            
-            prop_.load(input);
-            if(!prop_.isEmpty())
+            prop.load(input);
+            if(!prop.isEmpty())
                 return true;
         }catch(IOException ex){
             LOGGER.log(Level.WARNING, ex.getMessage());
@@ -89,7 +89,7 @@ public class CodeChallenge {
         int i = 1;
         while(i < 33){
             String key = "cidr"+i;
-            if(netmask.equals(prop_.getProperty(key))){
+            if(netmask.equals(prop.getProperty(key))){
                 return i;
             }
             i++;
