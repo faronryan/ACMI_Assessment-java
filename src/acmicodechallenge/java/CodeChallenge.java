@@ -8,7 +8,6 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -36,7 +35,7 @@ class OutofBoundsError extends Exception{
 }
  
 public class CodeChallenge {
-    final static Logger logger_ = 
+    final static Logger LOGGER = 
             Logger.getLogger(CodeChallenge.class.getName());
     private Properties prop_;
     
@@ -44,9 +43,9 @@ public class CodeChallenge {
     {
         prop_ = new Properties();
         try{
-            logger_.addHandler(new FileHandler("resources/error.logs"));
+            LOGGER.addHandler(new FileHandler("resources/error.logs"));
         }catch(IOException ex){
-            logger_.log(Level.WARNING, ex.getMessage());
+            LOGGER.log(Level.WARNING, ex.getMessage());
         }   
     }
     
@@ -58,9 +57,9 @@ public class CodeChallenge {
                 return result;
             }
         }catch(OutofBoundsError e){
-            logger_.log(Level.WARNING, e.getMessage());
+            LOGGER.log(Level.WARNING, e.getMessage());
         } catch(IOException ex){
-            logger_.log(Level.WARNING, ex.getMessage());
+            LOGGER.log(Level.WARNING, ex.getMessage());
         }
         
         return -1;
@@ -75,7 +74,7 @@ public class CodeChallenge {
             if(!prop_.isEmpty())
                 return true;
         }catch(IOException ex){
-            logger_.log(Level.WARNING, ex.getMessage());
+            LOGGER.log(Level.WARNING, ex.getMessage());
             throw ex;
         }
         finally{
@@ -121,8 +120,7 @@ public class CodeChallenge {
                 i++;
             }
         }catch(Exception e){
-            logger_.log(Level.WARNING, e.getMessage());
-            return null;
+            LOGGER.log(Level.WARNING, e.getMessage());
         }
         
         return results;

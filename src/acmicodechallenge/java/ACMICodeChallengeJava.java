@@ -10,12 +10,10 @@ package acmicodechallenge.java;
  * @author faronr
  */
 public class ACMICodeChallengeJava {
-
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        CodeChallenge cc = new CodeChallenge();
-        System.out.println(cc.netmask_to_bits("255.255.251.0"));
+        // Only used for a quick test
     }
 }
